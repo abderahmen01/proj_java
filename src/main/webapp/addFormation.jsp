@@ -13,10 +13,14 @@
     <c:if test="${not empty formation}">
       <input type="hidden" name="id" value="${formation.id}">
     </c:if>
+
+    <!-- Titre -->
     <div class="mb-3">
       <label class="form-label">Titre</label>
       <input type="text" name="titre" value="${formation.titre}" class="form-control" required>
     </div>
+
+    <!-- Domaine -->
     <div class="mb-3">
       <label class="form-label">Domaine</label>
       <select name="domaineId" class="form-select">
@@ -25,6 +29,26 @@
         </c:forEach>
       </select>
     </div>
+
+    <!-- Année -->
+    <div class="mb-3">
+      <label class="form-label">Année</label>
+      <input type="number" name="annee" value="${formation.annee}" class="form-control" min="2024" max="2100" required>
+    </div>
+
+    <!-- Durée (jours) -->
+    <div class="mb-3">
+      <label class="form-label">Durée (jours)</label>
+      <input type="number" name="duree" value="${formation.duree}" class="form-control" min="1" required>
+    </div>
+
+    <!-- Budget -->
+    <div class="mb-3">
+      <label class="form-label">Budget (€)</label>
+      <input type="number" name="budget" value="${formation.budget}" class="form-control" step="0.01" required>
+    </div>
+
+    <!-- Participants -->
     <div class="mb-3">
       <label class="form-label">Participants</label>
       <select name="participantsIds" multiple class="form-select">
@@ -36,6 +60,7 @@
         </c:forEach>
       </select>
     </div>
+
     <button type="submit" class="btn btn-success">Enregistrer</button>
   </form>
 </div>
