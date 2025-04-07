@@ -51,14 +51,23 @@
     <!-- Participants -->
     <div class="mb-3">
       <label class="form-label">Participants</label>
-      <select name="participantsIds" multiple class="form-select">
+      <div class="row">
         <c:forEach items="${participants}" var="participant">
-          <option value="${participant.id}"
-            ${formation.participants.contains(participant) ? 'selected' : ''}>
-              ${participant.nom} ${participant.prenom}
-          </option>
+          <div class="col-md-4">
+            <div class="form-check">
+              <input class="form-check-input"
+                     type="checkbox"
+                     name="participantsIds"
+                     value="${participant.id}"
+                ${formation.participants.contains(participant) ? 'checked' : ''}
+                     id="participant_${participant.id}">
+              <label class="form-check-label" for="participant_${participant.id}">
+                  ${participant.nom} ${participant.prenom}
+              </label>
+            </div>
+          </div>
         </c:forEach>
-      </select>
+      </div>
     </div>
 
     <button type="submit" class="btn btn-success">Enregistrer</button>

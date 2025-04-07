@@ -55,6 +55,7 @@ public class RoleServlet extends HttpServlet {
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setAttribute("role", new Role());
         request.getRequestDispatcher("/addRole.jsp").forward(request, response);
     }
 
@@ -72,9 +73,16 @@ public class RoleServlet extends HttpServlet {
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Long id = Long.parseLong(request.getParameter("id"));
-        request.setAttribute("role", roleDao.findById(id));
-        request.getRequestDispatcher("/addRole.jsp").forward(request, response);
+
+        try {
+            Long id = Long.parseLong(request.getParameter("id"));
+            Role role = roleDao.findById(id); // Récupère un objet Role
+            request.setAttribute("role", role);
+            request.getRequestDispatcher("/addRole.jsp").forward(request, response);
+        } catch (Exception e) {
+            throw new ServletException("Erreur lors de l'édition du rôle", e);
+        }
+
     }
 
     private void deleteRole(HttpServletRequest request, HttpServletResponse response)

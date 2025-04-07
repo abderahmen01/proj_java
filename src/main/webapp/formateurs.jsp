@@ -40,19 +40,6 @@
         <td>${formateur.type}</td>
         <td>${formateur.employeur.nomEmployeur}</td>
         <td>
-            <%-- Nouveau bouton Accueil dynamique --%>
-          <c:choose>
-            <c:when test="${sessionScope.role == 'administrateur'}">
-              <a href="${pageContext.request.contextPath}/adminDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
-            </c:when>
-            <c:when test="${sessionScope.role == 'responsable'}">
-              <a href="${pageContext.request.contextPath}/responsableDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
-            </c:when>
-            <c:otherwise>
-              <a href="${pageContext.request.contextPath}/utilisateurDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
-            </c:otherwise>
-          </c:choose>
-
           <a href="${pageContext.request.contextPath}/formateurs?action=edit&id=${formateur.id}" class="btn btn-warning">Modifier</a>
           <a href="${pageContext.request.contextPath}/formateurs?action=delete&id=${formateur.id}" class="btn btn-danger"
              onclick="return confirm('Supprimer ce formateur ?')">Supprimer</a>

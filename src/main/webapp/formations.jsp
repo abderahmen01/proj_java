@@ -27,7 +27,10 @@
     <tr>
       <th>ID</th>
       <th>Titre</th>
+      <th>Année</th>
+      <th>Durée</th>
       <th>Domaine</th>
+      <th>Budget</th>
       <th>Participants</th>
       <th>Actions</th>
     </tr>
@@ -37,12 +40,16 @@
       <tr>
         <td>${formation.id}</td>
         <td>${formation.titre}</td>
+        <td>${formation.annee}</td>
+        <td>${formation.duree}</td>
         <td>${formation.domaine.libelle}</td>
+        <td>${formation.budget}</td>
         <td>
           <c:forEach var="participant" items="${formation.participants}">
             ${participant.nom} ${participant.prenom}<br>
           </c:forEach>
         </td>
+
         <td>
           <a href="${pageContext.request.contextPath}/formations?action=edit&id=${formation.id}" class="btn btn-warning">Modifier</a>
           <a href="${pageContext.request.contextPath}/formations?action=delete&id=${formation.id}" class="btn btn-danger"

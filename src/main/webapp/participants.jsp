@@ -29,6 +29,8 @@
       <th>Nom</th>
       <th>Structure</th>
       <th>Profil</th>
+      <th>Email</th>
+      <th>Telephone</th>
       <th>Actions</th>
     </tr>
     </thead>
@@ -39,6 +41,8 @@
         <td>${participant.nom} ${participant.prenom}</td>
         <td>${participant.structure.libelle}</td>
         <td>${participant.profil.libelle}</td>
+        <td>${participant.email}</td>
+        <td>${participant.tel}</td>
         <td>
           <a href="${pageContext.request.contextPath}/participants?action=edit&id=${participant.id}" class="btn btn-warning">Modifier</a>
           <a href="${pageContext.request.contextPath}/participants?action=delete&id=${participant.id}" class="btn btn-danger"
