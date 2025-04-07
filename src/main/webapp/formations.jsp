@@ -8,7 +8,19 @@
 <body>
 <div class="container">
   <h2 class="mt-5">Liste des Formations</h2>
-  <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-secondary mt-3">Accueil</a>
+  <%-- Nouveau bouton Accueil dynamique --%>
+  <c:choose>
+    <c:when test="${sessionScope.role == 'administrateur'}">
+      <a href="${pageContext.request.contextPath}/adminDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
+    </c:when>
+    <c:when test="${sessionScope.role == 'responsable'}">
+      <a href="${pageContext.request.contextPath}/responsableDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
+    </c:when>
+    <c:otherwise>
+      <a href="${pageContext.request.contextPath}/utilisateurDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
+    </c:otherwise>
+  </c:choose>
+
   <a href="${pageContext.request.contextPath}/formations?action=new" class="btn btn-primary mt-3">Nouvelle Formation</a>
   <table class="table table-striped mt-3">
     <thead>

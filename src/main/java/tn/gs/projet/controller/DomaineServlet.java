@@ -24,6 +24,7 @@ public class DomaineServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = request.getParameter("action") == null ? "list" : request.getParameter("action");
+
         try {
             switch (action) {
                 case "new":

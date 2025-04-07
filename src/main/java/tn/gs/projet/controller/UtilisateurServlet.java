@@ -1,5 +1,9 @@
 package tn.gs.projet.controller;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -12,9 +16,11 @@ import java.io.IOException;
 public class UtilisateurServlet extends HttpServlet {
     private UtilisateurDao utilisateurDao;
     private RoleDao roleDao;
+    private EntityManager em;
 
     @Override
     public void init() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("trainingPU");
         utilisateurDao = new UtilisateurDao();
         roleDao = new RoleDao();
     }

@@ -8,10 +8,12 @@ import java.util.List;
 public class UtilisateurDao {
     private EntityManager em;
 
+
     public UtilisateurDao() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trainingPU");
-        em = emf.createEntityManager();
+        this.em = emf.createEntityManager();
     }
+
 
     public void saveOrUpdate(Utilisateur utilisateur) {
         em.getTransaction().begin();
@@ -33,5 +35,15 @@ public class UtilisateurDao {
         Utilisateur utilisateur = em.find(Utilisateur.class, id);
         if (utilisateur != null) em.remove(utilisateur);
         em.getTransaction().commit();
+    }
+
+    public Utilisateur findByLogin(String login) {
+        try {
+            return em.createQuery("SELECT u FROM Utilisateur u WHERE u.login = :login", Utilisateur.class)
+                    .setParameter("login", login)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

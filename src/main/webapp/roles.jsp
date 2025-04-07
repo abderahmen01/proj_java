@@ -8,7 +8,19 @@
 <body>
 <div class="container">
   <h2 class="mt-5">Liste des Rôles</h2>
-  <a href="${pageContext.request.contextPath}/index.jsp" class="btn btn-secondary mt-3">Accueil</a>
+  <%-- Nouveau bouton Accueil dynamique --%>
+  <c:choose>
+    <c:when test="${sessionScope.role == 'administrateur'}">
+      <a href="${pageContext.request.contextPath}/adminDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
+    </c:when>
+    <c:when test="${sessionScope.role == 'responsable'}">
+      <a href="${pageContext.request.contextPath}/responsableDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
+    </c:when>
+    <c:otherwise>
+      <a href="${pageContext.request.contextPath}/utilisateurDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
+    </c:otherwise>
+  </c:choose>
+
   <a href="${pageContext.request.contextPath}/roles?action=new" class="btn btn-primary mt-3">Nouveau Rôle</a>
   <table class="table table-striped mt-3">
     <thead>
