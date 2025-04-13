@@ -57,7 +57,7 @@
             <div class="form-check">
               <input class="form-check-input"
                      type="checkbox"
-                     name="participantsIds"
+                     name="participantId"
                      value="${participant.id}"
                 ${formation.participants.contains(participant) ? 'checked' : ''}
                      id="participant_${participant.id}">

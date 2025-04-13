@@ -4,22 +4,6 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <!-- JSF Configuration -->
-    <context-param>
-        <param-name>javax.faces.CONFIG_FILES</param-name>
-        <param-value>/context.xml</param-value>
-    </context-param>
-
-    <!-- Security Constraint for Admin -->
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Admin Pages</web-resource-name>
-            <url-pattern>/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>ADMIN</role-name>
-        </auth-constraint>
-    </security-constraint>
 
     <!-- Authentication Configuration -->
     <login-config>
@@ -30,26 +14,6 @@
         </form-login-config>
     </login-config>
 
-    <!-- Roles -->
-    <security-role><role-name>ADMIN</role-name></security-role>
-    <security-role><role-name>RESPONSABLE</role-name></security-role>
-    <security-role><role-name>UTILISATEUR</role-name></security-role>
-
-    <!-- JSF Servlet Configuration -->
-    <servlet>
-        <servlet-name>jsp</servlet-name>
-        <servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
-        <init-param>
-            <param-name>fork</param-name>
-            <param-value>false</param-value>
-        </init-param>
-        <load-on-startup>3</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>jsp</servlet-name>
-        <url-pattern>*.jsp</url-pattern>
-    </servlet-mapping>
 
     <welcome-file-list>
         <welcome-file>login.jsp</welcome-file>

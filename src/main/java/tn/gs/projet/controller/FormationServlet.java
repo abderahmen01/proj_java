@@ -30,15 +30,19 @@ public class FormationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        EntityManager entityManager = getEntityManager(request);
-        formationDao = new FormationDao(entityManager);
-        domaineDao = new DomaineDao(entityManager);
-        participantDao = new ParticipantDao(entityManager);
         doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // Récupérer l'EntityManager de la requête
+        EntityManager entityManager = getEntityManager(request);
+
+        // Initialiser les DAOs avec cet EntityManager
+        formationDao = new FormationDao(entityManager);
+        domaineDao = new DomaineDao(entityManager);
+        participantDao = new ParticipantDao(entityManager);
         String action = request.getParameter("action") == null ? "list" : request.getParameter("action");
         try {
             switch (action) {

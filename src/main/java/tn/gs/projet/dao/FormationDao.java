@@ -53,7 +53,7 @@ public class FormationDao {
     }
 
     public List<Formation> findAll() {
-        return em.createQuery("SELECT f FROM Formation f", Formation.class)
+        return em.createQuery("SELECT DISTINCT f FROM Formation f LEFT JOIN FETCH f.participants", Formation.class)
                 .getResultList();
     }
 

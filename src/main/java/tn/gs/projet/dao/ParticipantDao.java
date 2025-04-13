@@ -50,8 +50,4 @@ public class ParticipantDao {
                 ));
     }
 
-
-    public Participant merge(Participant participant) {
-        return em.merge(participant);
-    }
 }
