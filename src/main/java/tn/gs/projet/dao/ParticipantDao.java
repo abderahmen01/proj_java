@@ -34,4 +34,27 @@ public class ParticipantDao {
         if (participant != null) em.remove(participant);
         em.getTransaction().commit();
     }
+    public List<Object[]> getParticipantsByProfil() {
+        List<Object[]> results = em.createQuery(
+                "SELECT COALESCE(p.profil.libelle, 'Non défini'), COUNT(p) " +
+                        "FROM Participant p LEFT JOIN p.profil " + // Handle null profiles
+                        "GROUP BY p.profil.libelle",
+                Object[].class
+        ).getResultList();
+        System.out.println("[DEBUG] participant by profile: " + results.size() + " records");
+        return results;
+
+    }
+
+    public List<Object[]> getParticipantsByStructure() {
+        List<Object[]> results = em.createQuery(
+                "SELECT COALESCE(s.libelle, 'Non défini'), COUNT(p) " +
+                        "FROM Participant p LEFT JOIN p.structure s " + // Handle null structures
+                        "GROUP BY s.libelle",
+                Object[].class
+        ).getResultList();
+        System.out.println("[DEBUG] formtion by year: " + results.size() + " records");
+
+        return results;
+    }
 }

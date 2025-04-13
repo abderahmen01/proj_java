@@ -55,7 +55,7 @@
       <li class="nav-item"><a class="nav-link text-white" href="#formationsStats"><i class="fas fa-chart-line"></i> Formations</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="#participantsStats"><i class="fas fa-users"></i> Participants</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="#budgetStats"><i class="fas fa-coins"></i> Budgets</a></li>
-      <li class="nav-item mt-4"> <!-- marge supérieure pour séparation -->
+      <li class="nav-item mt-4">
         <a class="nav-link text-white" href="${pageContext.request.contextPath}/logout">
           <i class="fas fa-sign-out-alt"></i> Déconnexion
         </a>
@@ -107,16 +107,84 @@
 </div>
 
 <script>
-  // Exemple de configuration Chart.js
-  const ctx = document.getElementById('domainChart').getContext('2d');
-  new Chart(ctx, {
+  // Domain Chart Data
+  const domainLabels = [<c:forEach items="${domainStats}" var="stat">"${stat[0]}",</c:forEach>];
+  const domainData = [<c:forEach items="${domainStats}" var="stat">${stat[1]},</c:forEach>];
+
+  // Yearly Chart Data
+  const yearlyLabels = [<c:forEach items="${yearlyStats}" var="stat">"${stat[0]}",</c:forEach>];
+  const yearlyData = [<c:forEach items="${yearlyStats}" var="stat">${stat[1]},</c:forEach>];
+
+  // Profile Chart Data
+  const profileLabels = [<c:forEach items="${profileStats}" var="stat">"${stat[0]}",</c:forEach>];
+  const profileData = [<c:forEach items="${profileStats}" var="stat">${stat[1]},</c:forEach>];
+
+  // Structure Chart Data
+  const structureLabels = [<c:forEach items="${structureStats}" var="stat">"${stat[0]}",</c:forEach>];
+  const structureData = [<c:forEach items="${structureStats}" var="stat">${stat[1]},</c:forEach>];
+
+  // Initialize Charts
+  new Chart(document.getElementById('domainChart'), {
     type: 'pie',
     data: {
-      labels: ['Informatique', 'Finance', 'Management'],
+      labels: domainLabels,
       datasets: [{
-        data: [65, 25, 10],
-        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc']
+        data: domainData,
+        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b']
       }]
+    }
+  });
+
+  new Chart(document.getElementById('yearlyChart'), {
+    type: 'line',
+    data: {
+      labels: yearlyLabels,
+      datasets: [{
+        label: 'Nombre de formations',
+        data: yearlyData,
+        borderColor: '#4e73df',
+        tension: 0.4,
+        fill: false
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1 }
+        }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('profileChart'), {
+    type: 'doughnut',
+    data: {
+      labels: profileLabels,
+      datasets: [{
+        data: profileData,
+        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e']
+      }]
+    }
+  });
+
+  new Chart(document.getElementById('structureChart'), {
+    type: 'bar',
+    data: {
+      labels: structureLabels,
+      datasets: [{
+        label: 'Nombre de participants',
+        data: structureData,
+        backgroundColor: '#4e73df'
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1 }
+        }
+      }
     }
   });
 </script>

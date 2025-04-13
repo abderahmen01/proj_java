@@ -34,4 +34,31 @@ public class FormationDao {
         if (formation != null) em.remove(formation);
         em.getTransaction().commit();
     }
+    public List<Object[]> getFormationsByDomain() {
+        List<Object[]> results = em.createQuery(
+                "SELECT COALESCE(d.libelle, 'Non défini'), COUNT(f) " +
+                        "FROM Formation f LEFT JOIN f.domaine d " + // Handle null domains
+                        "GROUP BY d.libelle",
+                Object[].class
+        ).getResultList();
+
+        System.out.println("[DEBUG] Domain Stats: " + results.size() + " records");
+        return results;
+
+    }
+
+    public List<Object[]> getFormationsByYear() {
+        List<Object[]> results = em.createQuery(
+                "SELECT f.annee, COUNT(f) " +
+                        "FROM Formation f " +
+                        "WHERE f.annee IS NOT NULL " + // Exclude null years
+                        "GROUP BY f.annee " +
+                        "ORDER BY f.annee",
+                Object[].class
+        ).getResultList();
+        System.out.println("[DEBUG] formtion by year: " + results.size() + " records");
+
+        return results;
+    }
+
 }

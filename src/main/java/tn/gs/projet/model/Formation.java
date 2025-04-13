@@ -18,8 +18,9 @@ public class Formation {
     private int duree; // Nombre de jours
     private double budget;
 
+    // In Formation.java
     @ManyToOne
-    @JoinColumn(name = "idDomaine")
+    @JoinColumn(name = "idDomaine") // Must match DB column name
     private Domaine domaine;
 
     @ManyToMany(mappedBy = "formations")
