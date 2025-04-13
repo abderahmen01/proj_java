@@ -72,6 +72,8 @@ public class ParticipantServlet extends HttpServlet {
         }
         participant.setNom(request.getParameter("nom"));
         participant.setPrenom(request.getParameter("prenom"));
+        participant.setEmail(request.getParameter("email"));
+        participant.setTel(Integer.parseInt(request.getParameter("tel")));
         participant.setStructure(structureDao.findById(Long.parseLong(request.getParameter("structureId"))));
         participant.setProfil(profilDao.findById(Long.parseLong(request.getParameter("profilId"))));
         participantDao.saveOrUpdate(participant);

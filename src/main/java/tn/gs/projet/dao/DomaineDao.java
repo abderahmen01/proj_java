@@ -2,11 +2,18 @@ package tn.gs.projet.dao;
 
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import tn.gs.projet.model.Domaine;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DomaineDao {
     private EntityManager em;
+
+    public DomaineDao(EntityManager em) {
+        this.em = em;
+    }
 
     public DomaineDao() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trainingPU");
@@ -33,5 +40,18 @@ public class DomaineDao {
         Domaine domaine = em.find(Domaine.class, id);
         if (domaine != null) em.remove(domaine);
         em.getTransaction().commit();
+    }
+
+    @Transactional
+    public Map<String, Long> getFormationsCountByDomaine() {
+        
+        return em.createQuery(
+                        "SELECT d.libelle, COUNT(f) FROM Domaine d LEFT JOIN d.formations f GROUP BY d.libelle",
+                        Object[].class)
+                .getResultStream()
+                .collect(Collectors.toMap(
+                        o -> (String) o[0],
+                        o -> (Long) o[1]
+                ));
     }
 }

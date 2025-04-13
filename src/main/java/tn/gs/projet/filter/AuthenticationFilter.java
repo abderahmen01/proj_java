@@ -10,35 +10,21 @@ import java.io.IOException;
 
 @WebFilter("/*")
 public class AuthenticationFilter implements Filter {
+
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-
         String path = request.getRequestURI().substring(request.getContextPath().length());
 
-        // Autoriser login, logout et les ressources statiques
-        if (path.startsWith("/login")
-                || path.startsWith("/login.jsp")
-                || path.startsWith("/domaines.jsp")
-                || path.startsWith("/employeurs.jsp")
-                || path.startsWith("/formateurs.jsp")
-                || path.startsWith("/formations.jsp")
-                || path.startsWith("/participants.jsp")
-                || path.startsWith("/profils.jsp")
-                || path.startsWith("/roles.jsp")
-                || path.startsWith("/structures.jsp")
-                || path.startsWith("/utilisateurs.jsp")
-                || path.startsWith("/logout")
-                || path.startsWith("/css/")
-                || path.startsWith("/js/")
-                || path.equals("/adminDashboard.jsp")) {
+        // Autoriser les ressources publiques
+        if (path.startsWith("/login") || path.startsWith("/css/") || path.startsWith("/js/") || path.startsWith("/logout")) {
             chain.doFilter(request, response);
             return;
         }
 
-        // Vérifier la session
         HttpSession session = request.getSession(false);
         String role = (session != null) ? (String) session.getAttribute("role") : null;
 

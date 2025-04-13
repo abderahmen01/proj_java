@@ -16,12 +16,21 @@
         <class>tn.gs.projet.model.Employeur</class>
         <class>tn.gs.projet.model.Formation</class>
         <class>tn.gs.projet.model.Participant</class>
+        <class>tn.gs.projet.model.FormationParticipant</class>
+
 
         <properties>
+
+
             <!-- Configuration Hibernate -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.cache.use_query_cache" value="false"/>
+
 
             <!-- Désactiver JSON-B si non utilisé -->
             <property name="hibernate.jsonb.mapper" value="DISABLED"/>

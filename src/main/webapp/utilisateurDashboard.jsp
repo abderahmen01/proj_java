@@ -34,14 +34,33 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark fixed-top">
-  <div class="container-fluid">
-    <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-      <i class="fas fa-bars"></i>
-    </button>
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+
+    <!-- Gauche : burger + menu utilisateur -->
+    <div class="d-flex align-items-center">
+      <button class="btn btn-dark me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Menu utilisateur -->
+      <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+           id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-user-circle fa-2x me-2"></i>
+          <span>Bonjour, <strong><%= userSession.getAttribute("login") %> !</strong></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-start text-small shadow" aria-labelledby="userDropdown">
+          <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Déconnexion</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Milieu : Logo -->
     <a class="navbar-brand mx-auto" href="#">
       <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
       Espace Utilisateur
     </a>
+
   </div>
 </nav>
 
@@ -55,11 +74,6 @@
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/formateurs"><i class="fas fa-chalkboard-teacher"></i> Formateurs</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/formations"><i class="fas fa-book-open"></i> Formations</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/participants"><i class="fas fa-user-graduate"></i> Participants</a></li>
-      <li class="nav-item mt-4"> <!-- marge supérieure pour séparation -->
-        <a class="nav-link text-white" href="${pageContext.request.contextPath}/logout">
-          <i class="fas fa-sign-out-alt"></i> Déconnexion
-        </a>
-      </li>
     </ul>
   </div>
 </div>

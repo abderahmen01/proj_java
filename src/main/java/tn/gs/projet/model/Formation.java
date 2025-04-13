@@ -3,6 +3,9 @@ package tn.gs.projet.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,6 +25,6 @@ public class Formation {
     @JoinColumn(name = "idDomaine")
     private Domaine domaine;
 
-    @ManyToMany(mappedBy = "formations")
-    private List<Participant> participants;
+    @OneToMany(mappedBy = "formation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormationParticipant> participants = new ArrayList<>();
 }

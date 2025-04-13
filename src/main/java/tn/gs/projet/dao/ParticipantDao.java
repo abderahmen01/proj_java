@@ -4,9 +4,15 @@ package tn.gs.projet.dao;
 import jakarta.persistence.*;
 import tn.gs.projet.model.Participant;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ParticipantDao {
-    private EntityManager em;
+    public EntityManager em;
+
+    public ParticipantDao(EntityManager em) {
+        this.em = em;
+    }
 
     public ParticipantDao() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trainingPU");
@@ -33,5 +39,19 @@ public class ParticipantDao {
         Participant participant = em.find(Participant.class, id);
         if (participant != null) em.remove(participant);
         em.getTransaction().commit();
+    }
+    public Map<String, Long> getParticipantsCountByProfil() {
+        return em.createQuery(
+                        "SELECT p.libelle, COUNT(part) FROM Participant part JOIN part.profil p GROUP BY p.libelle", Object[].class)
+                .getResultStream()
+                .collect(Collectors.toMap(
+                        o -> (String) o[0],
+                        o -> (Long) o[1]
+                ));
+    }
+
+
+    public Participant merge(Participant participant) {
+        return em.merge(participant);
     }
 }

@@ -3,8 +3,11 @@ package tn.gs.projet.dao;
 
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import tn.gs.projet.model.Structure;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class StructureDao {
     private EntityManager em;
@@ -34,5 +37,18 @@ public class StructureDao {
         Structure structure = em.find(Structure.class, id);
         if (structure != null) em.remove(structure);
         em.getTransaction().commit();
+    }
+
+    @Transactional
+    public Map<String, Long> getParticipantsCountByStructure() {
+        return em.createQuery(
+                        "SELECT s.libelle, COUNT(participant) " +
+                                "FROM Structure s LEFT JOIN s.participants participant " +
+                                "GROUP BY s.libelle", Object[].class)
+                .getResultStream()
+                .collect(Collectors.toMap(
+                        o -> (String) o[0],
+                        o -> (Long) o[1]
+                ));
     }
 }

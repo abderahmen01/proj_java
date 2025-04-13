@@ -45,7 +45,7 @@
     <!-- Budget -->
     <div class="mb-3">
       <label class="form-label">Budget (€)</label>
-      <input type="number" name="budget" value="${formation.budget}" class="form-control" step="0.01" required>
+      <input type="number" name="budget" value="${formation.budget}" class="form-control" step="any" required>
     </div>
 
     <!-- Participants -->

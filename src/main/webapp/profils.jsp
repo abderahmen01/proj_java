@@ -14,7 +14,7 @@
       <a href="${pageContext.request.contextPath}/adminDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
     </c:when>
     <c:when test="${sessionScope.role == 'responsable'}">
-      <a href="${pageContext.request.contextPath}/responsableDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
+      <a href="${pageContext.request.contextPath}/homeDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>
     </c:when>
     <c:otherwise>
       <a href="${pageContext.request.contextPath}/utilisateurDashboard.jsp" class="btn btn-secondary mt-3">Accueil</a>

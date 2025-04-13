@@ -16,7 +16,7 @@ import java.io.IOException;
 public class UtilisateurServlet extends HttpServlet {
     private UtilisateurDao utilisateurDao;
     private RoleDao roleDao;
-    private EntityManager em;
+
 
     @Override
     public void init() {

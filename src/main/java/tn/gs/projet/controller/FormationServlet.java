@@ -1,13 +1,15 @@
 package tn.gs.projet.controller;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import tn.gs.projet.dao.*;
 import tn.gs.projet.model.*;
 import java.io.IOException;
-import java.util.List;
+import java.util.Date;
 
 @WebServlet("/formations")
 public class FormationServlet extends HttpServlet {
@@ -15,15 +17,23 @@ public class FormationServlet extends HttpServlet {
     private DomaineDao domaineDao;
     private ParticipantDao participantDao;
 
+
     @Override
     public void init() {
         formationDao = new FormationDao();
         domaineDao = new DomaineDao();
         participantDao = new ParticipantDao();
     }
+    private EntityManager getEntityManager(HttpServletRequest request) {
+        return (EntityManager) request.getAttribute("entityManager");
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        EntityManager entityManager = getEntityManager(request);
+        formationDao = new FormationDao(entityManager);
+        domaineDao = new DomaineDao(entityManager);
+        participantDao = new ParticipantDao(entityManager);
         doGet(request, response);
     }
 
@@ -65,17 +75,51 @@ public class FormationServlet extends HttpServlet {
         request.getRequestDispatcher("/addFormation.jsp").forward(request, response);
     }
 
-    private void addEditFormation(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
-        Formation formation = new Formation();
-        String id = request.getParameter("id");
-        if (id != null && !id.isEmpty()) {
-            formation = formationDao.findById(Long.parseLong(id));
+    private void addEditFormation(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        EntityManager entityManager = getEntityManager(request);
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        try {
+            transaction.begin();
+
+            // Créer ou récupérer la formation
+            Formation formation;
+            String id = request.getParameter("id");
+            if (id != null && !id.isEmpty()) {
+                formation = formationDao.em.find(Formation.class, Long.parseLong(id));
+            } else {
+                formation = new Formation();
+
+                formation.setTitre(request.getParameter("titre"));
+                formation.setAnnee(Integer.parseInt(request.getParameter("annee")));
+                formation.setDuree(Integer.parseInt(request.getParameter("duree")));
+                formation.setBudget(Double.parseDouble(request.getParameter("budget")));
+                formation.setDomaine(formationDao.em.find(Domaine.class, Long.parseLong(request.getParameter("domaineId"))));
+                entityManager.persist(formation); // Génère l'ID
+                entityManager.flush(); // Force la génération immédiate
+            }
+
+            // Gérer les participants
+            String[] participantsIds = request.getParameterValues("participantId");
+            if (participantsIds != null) {
+                for (String participantId : participantsIds) {
+                    Participant participant = entityManager.getReference(Participant.class, Long.parseLong(participantId));
+                    FormationParticipant fp = new FormationParticipant();
+                    fp.setFormation(formation);
+                    fp.setParticipant(participant);
+                    fp.setDateInscription(new Date());
+                    fp.setId(new FormationParticipantId(formation.getId(), participant.getId()));
+                    entityManager.persist(fp); // Persister explicitement
+                }
+            }
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction.isActive()) transaction.rollback();
+            throw new ServletException(e);
         }
-        formation.setTitre(request.getParameter("titre"));
-        formation.setDomaine(domaineDao.findById(Long.parseLong(request.getParameter("domaineId"))));
-        // Gérer les participants (ManyToMany)
-        formationDao.saveOrUpdate(formation);
+
         response.sendRedirect("formations?action=list");
     }
 

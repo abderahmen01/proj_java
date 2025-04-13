@@ -3,6 +3,9 @@ package tn.gs.projet.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,17 +23,13 @@ public class Participant {
 
     @ManyToOne
     @JoinColumn(name = "idStructure")
+    @EqualsAndHashCode.Exclude
     private Structure structure;
 
     @ManyToOne
     @JoinColumn(name = "idProfil")
     private Profil profil;
 
-    @ManyToMany
-    @JoinTable(
-            name = "Formation_Participant",
-            joinColumns = @JoinColumn(name = "participant_id"),
-            inverseJoinColumns = @JoinColumn(name = "formation_id")
-    )
-    private List<Formation> formations;
+    @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FormationParticipant> formations = new ArrayList<>();
 }

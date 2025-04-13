@@ -8,6 +8,8 @@ import java.util.List;
 public class EmployeurDao {
     private EntityManager em;
 
+
+
     public EmployeurDao() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("trainingPU");
         em = emf.createEntityManager();

@@ -28,6 +28,7 @@ public class LoginServlet extends HttpServlet {
 
         if (user != null && user.getPassword().equals(password)) {
             HttpSession session = request.getSession();
+            session.setAttribute("login", login);
             session.setAttribute("user", user);
             String role = user.getRoleName();
             session.setAttribute("role", role);
@@ -38,7 +39,7 @@ public class LoginServlet extends HttpServlet {
                     response.sendRedirect(request.getContextPath() + "/adminDashboard.jsp");
                     break;
                 case "responsable":
-                    response.sendRedirect(request.getContextPath() + "/responsableDashboard.jsp");
+                    response.sendRedirect(request.getContextPath() + "/homeDashboard.jsp");
                     break;
                 case "simple_utilisateur":
                     response.sendRedirect(request.getContextPath() + "/utilisateurDashboard.jsp");
