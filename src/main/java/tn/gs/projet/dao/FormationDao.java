@@ -3,6 +3,7 @@ package tn.gs.projet.dao;
 import jakarta.persistence.*;
 import tn.gs.projet.model.Formation;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,55 @@ public class FormationDao {
 
     }
 
+
+
+    public Map<String, Double> getBudgetByDomain() {
+        Query query = em.createQuery(
+                "SELECT d.libelle, SUM(f.budget) FROM Formation f JOIN f.domaine d GROUP BY d.libelle"
+        );
+        List<Object[]> results = query.getResultList();
+        return results.stream()
+                .collect(Collectors.toMap(
+                        o -> (String) o[0],
+                        o -> (Double) o[1]
+                ));
+    }
+
+    public List<Formation> findNonPlanifiees() {
+        return em.createQuery(
+                        "SELECT f FROM Formation f WHERE f.dateDebut IS NULL ORDER BY f.annee DESC",
+                        Formation.class)
+                .getResultList();
+    }
+
+    public boolean isFormateurDisponible(Long formateurId, LocalDate debut, LocalDate fin) {
+        return em.createQuery(
+                        "SELECT COUNT(f) FROM Formation f WHERE " +
+                                "f.formateur.id = :formateurId AND " +
+                                "((f.dateDebut BETWEEN :debut AND :fin) OR " +
+                                "(f.dateFin BETWEEN :debut AND :fin))",
+                        Long.class)
+                .setParameter("formateurId", formateurId)
+                .setParameter("debut", debut)
+                .setParameter("fin", fin)
+                .getSingleResult() == 0;
+    }
+    public List<Formation> findPlanifiees() {
+        return em.createQuery(
+                        "SELECT f FROM Formation f WHERE f.dateDebut IS NOT NULL ORDER BY f.dateDebut DESC",
+                        Formation.class)
+                .getResultList();
+    }
+
+    public List<Formation> findDernieresPlanifiees(int limit) {
+        return em.createQuery(
+                        "SELECT f FROM Formation f WHERE f.dateDebut IS NOT NULL " +
+                                "ORDER BY f.dateDebut DESC", Formation.class)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+
     // Ajouter ces méthodes
     public Map<String, Long> getFormationsCountByYear() {
         Query query = em.createQuery(
@@ -99,15 +149,18 @@ public class FormationDao {
                 ));
     }
 
-    public Map<String, Double> getBudgetByDomain() {
-        Query query = em.createQuery(
-                "SELECT d.libelle, SUM(f.budget) FROM Formation f JOIN f.domaine d GROUP BY d.libelle"
-        );
-        List<Object[]> results = query.getResultList();
-        return results.stream()
-                .collect(Collectors.toMap(
-                        o -> (String) o[0],
-                        o -> (Double) o[1]
-                ));
+    public void deletePlanification(Long id) {
+        executeInTransaction(() -> {
+            Formation formation = em.find(Formation.class, id);
+            if (formation != null) {
+                formation.setDateDebut(null);
+                formation.setDateFin(null);
+                formation.setLieu(null);
+                formation.setFormateur(null);
+                em.merge(formation); // Mise à jour de l'entité
+            }
+        });
     }
+
+
 }

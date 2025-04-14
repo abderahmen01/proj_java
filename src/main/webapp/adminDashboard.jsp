@@ -177,7 +177,7 @@
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/domaines"><i class="fas fa-layer-group me-2"></i>Domaines</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/employeurs"><i class="fas fa-briefcase me-2"></i>Employeurs</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/stats"><i class="fas fa-chart-bar me-2"></i>Statistiques</a></li>
-
+      <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/planification"><i class="fas fa-calendar-alt me-2"></i>Planification</a></li>
     </ul>
   </div>
 </div>
@@ -197,6 +197,8 @@
 <!-- Contenu principal -->
 <div class="container my-5 fade-in">
   <div class="row g-4">
+
+
     <!-- Formateurs -->
     <div class="col-md-6">
       <div class="card shadow-lg border-0">
@@ -210,11 +212,33 @@
       </div>
     </div>
 
+    <!-- Nouvelle carte Formations Planifiées -->
+    <div class="col-md-4">
+      <div class="card shadow-lg border-0">
+        <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+             class="card-img-top"
+             style="height: 180px; object-fit: cover;">
+        <div class="card-body text-center">
+          <h3 class="card-title mb-3">
+            <i class="fas fa-calendar-check me-2"></i>Planning
+          </h3>
+          <p class="card-text">
+            Consultez le calendrier des formations programmées
+          </p>
+          <a href="${pageContext.request.contextPath}/formationsPlanifiees"
+             class="btn btn-info btn-lg">
+            Voir le planning
+          </a>
+        </div>
+      </div>
+    </div>
+
     <!-- Participants -->
     <div class="col-md-6">
       <div class="card shadow-lg border-0">
         <img src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
-             class="card-img-top" style="height: 250px; object-fit: cover;">
+             class="card-img-top"
+             style="height: 180px; object-fit: cover;">
         <div class="card-body text-center">
           <h3 class="card-title mb-3"><i class="fas fa-user-graduate me-2"></i>Gestion des Participants</h3>
           <p class="card-text">Suivez et managez les inscriptions des participants aux formations</p>
@@ -224,6 +248,8 @@
     </div>
   </div>
 </div>
+
+
 
 <!-- Footer -->
 <footer>

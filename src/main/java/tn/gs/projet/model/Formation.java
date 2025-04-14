@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,19 @@ public class Formation {
     private int duree; // Nombre de jours
     private double budget;
 
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
+    private String lieu;
+
     @ManyToOne
     @JoinColumn(name = "idDomaine")
     private Domaine domaine;
 
     @OneToMany(mappedBy = "formation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FormationParticipant> participants = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "id_formateur")
+    private Formateur formateur;
+
 }

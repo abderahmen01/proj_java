@@ -10,7 +10,9 @@ import tn.gs.projet.dao.FormationDao;
 import tn.gs.projet.dao.ParticipantDao;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 @WebServlet("/stats")
 public class StatsServlet extends HttpServlet {
@@ -24,19 +26,23 @@ public class StatsServlet extends HttpServlet {
         // Récupérer les données pour les graphiques
         Map<String, Long> formationsParDomaine = formationDao.getFormationsCountByDomain();
         Map<String, Long> participantsParProfil = participantDao.getParticipantsCountByProfil();
-        Map<String, Long> formationsParAnnee = formationDao.getFormationsCountByYear();
+
         Map<String, Double> budgetParDomaine = formationDao.getBudgetByDomain();
+
 
 
         // Convertir en JSON
         Gson gson = new Gson();
+
         request.setAttribute("formationsParDomaineJSON", gson.toJson(formationsParDomaine));
         request.setAttribute("participantsParProfilJSON", gson.toJson(participantsParProfil));
-        request.setAttribute("formationsParAnneeJSON", gson.toJson(formationsParAnnee));
+
         request.setAttribute("budgetParDomaineJSON", gson.toJson(budgetParDomaine));
 
 
-        // Rediriger vers stats.jsp (ancien dashboard avec graphiques)
+
+
         request.getRequestDispatcher("/stats.jsp").forward(request, response);
+
     }
 }

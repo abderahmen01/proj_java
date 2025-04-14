@@ -57,7 +57,9 @@ public class FormationServlet extends HttpServlet {
                     break;
                 case "delete":
                     deleteFormation(request, response);
-                    break;
+                case "deletePlanification":
+                    deletePlanification(request, response);
+                    return;
                 default:
                     listFormations(request, response);
             }
@@ -143,4 +145,25 @@ public class FormationServlet extends HttpServlet {
         formationDao.delete(id);
         response.sendRedirect("formations?action=list");
     }
+
+    private void deletePlanification(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        try {
+            Long id = Long.parseLong(request.getParameter("id"));
+            formationDao.deletePlanification(id);
+            if (!response.isCommitted()) {
+                response.sendRedirect(request.getContextPath() + "/formationsPlanifiees");
+            }
+        } catch (NumberFormatException e) {
+            if (!response.isCommitted()) {
+                response.sendRedirect(request.getContextPath() + "/errorPage.jsp?message=ID invalide");
+            }
+        } catch (Exception e) {
+            if (!response.isCommitted()) {
+                response.sendRedirect(request.getContextPath() + "/errorPage.jsp?message=" + e.getMessage());
+            }
+        }
+    }
+
 }

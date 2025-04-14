@@ -74,6 +74,7 @@
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/formateurs"><i class="fas fa-chalkboard-teacher"></i> Formateurs</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/formations"><i class="fas fa-book-open"></i> Formations</a></li>
       <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/participants"><i class="fas fa-user-graduate"></i> Participants</a></li>
+      <li class="nav-item"><a class="nav-link text-white" href="${pageContext.request.contextPath}/planification"><i class="fas fa-calendar-alt me-2"></i>Planification</a></li>
     </ul>
   </div>
 </div>
@@ -107,22 +108,23 @@
         <a href="${pageContext.request.contextPath}/participants?action=new" class="btn btn-info mt-2">Inscrire</a>
       </div>
     </div>
-  </div>
 
-  <!-- Section Dernières Formations -->
-  <section class="my-5">
-    <h4 class="mb-4"><i class="fas fa-history me-2"></i>Dernières Formations</h4>
-    <div class="list-group">
-      <c:forEach items="${formations}" var="formation" end="4">
-        <a href="#" class="list-group-item list-group-item-action">
-            ${formation.titre} - ${formation.domaine.libelle}
+
+  <!-- Nouvelle carte pour les formations planifiées -->
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="quick-action-card">
+        <i class="fas fa-calendar-alt fa-3x text-warning mb-3"></i>
+        <h5>Formations Planifiées</h5>
+        <a href="${pageContext.request.contextPath}/formationsPlanifiees"
+           class="btn btn-warning mt-2">
+          Voir le planning
         </a>
-      </c:forEach>
+      </div>
     </div>
-  </section>
-
+  </div>
+  </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
