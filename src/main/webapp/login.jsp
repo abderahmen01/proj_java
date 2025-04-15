@@ -1,5 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<c:if test="${not empty sessionScope.role}">
+  <c:choose>
+    <c:when test="${sessionScope.role == 'administrateur'}">
+      <c:redirect url="/adminDashboard.jsp" />
+    </c:when>
+    <c:when test="${sessionScope.role == 'responsable'}">
+      <c:redirect url="/home" />
+    </c:when>
+    <c:when test="${sessionScope.role == 'simple_utilisateur'}">
+      <c:redirect url="/utilisateurDashboard.jsp" />
+    </c:when>
+  </c:choose>
+</c:if>
+
 <html>
 <head>
   <title>Page de Connexion</title>
