@@ -1,3 +1,71 @@
+<style>
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #27ae60;
+    --light-bg: #f8f9fa;
+}
+
+body {
+    background-color: var(--light-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: var(--primary-color) !important;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.table {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card, .stat-card, .quick-action-card {
+    border: none;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.card:hover, .stat-card:hover, .quick-action-card:hover {
+    transform: translateY(-5px);
+}
+
+.btn {
+    border-radius: 8px;
+    padding: 8px 20px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.table thead {
+    background: var(--primary-color);
+    color: white !important;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.main-content {
+    margin-top: 80px;
+    flex: 1;
+}
+
+.alert {
+    border-radius: 8px;
+}
+</style>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
