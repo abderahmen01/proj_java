@@ -75,9 +75,6 @@
 <nav class="navbar navbar-dark fixed-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <button class="btn btn-dark me-3" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-                <i class="fas fa-bars"></i>
-            </button>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                    id="userDropdown" data-bs-toggle="dropdown">
@@ -96,9 +93,10 @@
                 </ul>
             </div>
         </div>
+
         <a class="navbar-brand mx-auto" href="#">
             <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
-            SkillForge
+            Gestion des Formations
         </a>
     </div>
 </nav>

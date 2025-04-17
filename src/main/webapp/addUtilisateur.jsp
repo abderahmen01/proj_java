@@ -75,9 +75,6 @@
 <nav class="navbar navbar-dark fixed-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
-            <button class="btn btn-dark me-3" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-                <i class="fas fa-bars"></i>
-            </button>
             <div class="dropdown">
                 <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                    id="userDropdown" data-bs-toggle="dropdown">
@@ -96,9 +93,10 @@
                 </ul>
             </div>
         </div>
+
         <a class="navbar-brand mx-auto" href="#">
             <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" style="height:40px">
-            SkillForge
+            Gestion des Formations
         </a>
     </div>
 </nav>
@@ -113,33 +111,46 @@
                 </h3>
             </div>
             <div class="card-body p-4">
-                <form action="utilisateurs" method="post">
+                <form action="utilisateurs" method="post" class="needs-validation" novalidate>
                     <input type="hidden" name="action" value="add">
                     <c:if test="${not empty utilisateur}">
                         <input type="hidden" name="id" value="${utilisateur.id}">
                     </c:if>
 
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Login</label>
-                        <input type="text" name="login" value="${utilisateur.login}"
-                               class="form-control form-control-lg" required>
+                        <label for="login" class="form-label fw-bold">Login</label>
+                        <input type="text" id="login" name="login" value="${utilisateur.login}"
+                               class="form-control form-control-lg" required
+                               pattern="[A-Za-z0-9]{4,20}" title="4-20 caractères alphanumériques">
+                        <div class="invalid-feedback">
+                            Le login doit contenir entre 4 et 20 caractères alphanumériques.
+                        </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Mot de passe</label>
-                        <input type="password" name="password"
-                               class="form-control form-control-lg" required>
+                        <label for="password" class="form-label fw-bold">Mot de passe</label>
+                        <input type="password" id="password" name="password"
+                               class="form-control form-control-lg" required
+                               pattern="(?=.*[A-Z])(?=.*\d).{8,}"
+                               title="Au moins 8 caractères, dont une majuscule et un chiffre">
+                        <div class="invalid-feedback">
+                            Le mot de passe doit comporter au moins 8 caractères, dont une majuscule et un chiffre.
+                        </div>
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-bold">Rôle</label>
-                        <select name="roleId" class="form-select form-select-lg">
+                        <label for="roleId" class="form-label fw-bold">Rôle</label>
+                        <select id="roleId" name="roleId" class="form-select form-select-lg" required>
+                            <option value="" disabled ${empty utilisateur.role.id ? 'selected' : ''}>Choisissez un rôle</option>
                             <c:forEach items="${roles}" var="role">
                                 <option value="${role.id}" ${utilisateur.role.id == role.id ? 'selected' : ''}>
                                     ${role.nom}
                                 </option>
                             </c:forEach>
                         </select>
+                        <div class="invalid-feedback">
+                            Veuillez sélectionner un rôle.
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-3">
@@ -167,12 +178,20 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    window.addEventListener("load", function() {
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 1;
-            el.style.transform = 'translateY(0)';
+    // Bootstrap validation
+    (function () {
+        'use strict';
+        var forms = document.querySelectorAll('.needs-validation');
+        Array.prototype.slice.call(forms).forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
         });
-    });
+    })();
 </script>
 </body>
 </html>
