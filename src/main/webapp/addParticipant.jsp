@@ -71,13 +71,11 @@
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-dark fixed-top">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                   id="userDropdown" data-bs-toggle="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative me-2">
                         <i class="fas fa-user-circle fa-2x"></i>
                     </div>
@@ -111,7 +109,7 @@
                 </h3>
             </div>
             <div class="card-body p-4">
-                <form action="${pageContext.request.contextPath}/participants" method="post">
+                <form action="${pageContext.request.contextPath}/participants" method="post" novalidate>
                     <input type="hidden" name="action" value="add">
                     <c:if test="${not empty participant}">
                         <input type="hidden" name="id" value="${participant.id}">
@@ -121,35 +119,31 @@
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Nom</label>
-                                <input type="text" name="nom" value="${participant.nom}"
-                                       class="form-control form-control-lg" required>
+                                <input type="text" name="nom" value="${participant.nom}" class="form-control form-control-lg" required pattern="[A-Za-zÀ-ÿ\s\-]{2,50}" title="Le nom doit contenir uniquement des lettres (2 à 50 caractères).">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Prénom</label>
-                                <input type="text" name="prenom" value="${participant.prenom}"
-                                       class="form-control form-control-lg" required>
+                                <input type="text" name="prenom" value="${participant.prenom}" class="form-control form-control-lg" required pattern="[A-Za-zÀ-ÿ\s\-]{2,50}" title="Le prénom doit contenir uniquement des lettres (2 à 50 caractères).">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Email</label>
-                                <input type="email" name="email" value="${participant.email}"
-                                       class="form-control form-control-lg" required>
+                                <input type="email" name="email" value="${participant.email}" class="form-control form-control-lg" required title="Veuillez saisir une adresse email valide.">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Téléphone</label>
-                                <input type="tel" name="tel" value="${participant.tel}"
-                                       class="form-control form-control-lg" required>
+                                <input type="tel" name="tel" value="${participant.tel}" class="form-control form-control-lg" required pattern="\d{8,15}" title="Veuillez entrer un numéro de téléphone valide (8 à 15 chiffres).">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Structure</label>
-                                <select name="structureId" class="form-select form-select-lg">
+                                <select name="structureId" class="form-select form-select-lg" required>
                                     <c:forEach items="${structures}" var="structure">
                                         <option value="${structure.id}" ${participant.structure.id == structure.id ? 'selected' : ''}>
                                             ${structure.libelle}
@@ -161,7 +155,7 @@
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Profil</label>
-                                <select name="profilId" class="form-select form-select-lg">
+                                <select name="profilId" class="form-select form-select-lg" required>
                                     <c:forEach items="${profils}" var="profil">
                                         <option value="${profil.id}" ${participant.profil.id == profil.id ? 'selected' : ''}>
                                             ${profil.libelle}
@@ -173,8 +167,7 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-3 mt-4">
-                        <a href="${pageContext.request.contextPath}/participants"
-                           class="btn btn-secondary">
+                        <a href="${pageContext.request.contextPath}/participants" class="btn btn-secondary">
                             <i class="fas fa-times me-2"></i>Annuler
                         </a>
                         <button type="submit" class="btn btn-success">
@@ -187,7 +180,6 @@
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="bg-dark text-white">
     <div class="container text-center py-3">
         <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" width="40" class="mb-2">
@@ -197,11 +189,30 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    window.addEventListener("load", function() {
-        document.querySelectorAll('.fade-in').forEach(el => {
-            el.style.opacity = 1;
-            el.style.transform = 'translateY(0)';
+    document.querySelector("form").addEventListener("submit", function (event) {
+        const form = event.target;
+        let isValid = true;
+
+        form.querySelectorAll(".is-invalid").forEach(el => el.classList.remove("is-invalid"));
+        form.querySelectorAll(".invalid-feedback").forEach(el => el.remove());
+
+        form.querySelectorAll("input, select").forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                input.classList.add("is-invalid");
+
+                const errorMsg = document.createElement("div");
+                errorMsg.className = "invalid-feedback";
+                errorMsg.textContent = input.title || "Ce champ est requis.";
+
+                input.parentNode.appendChild(errorMsg);
+            }
         });
+
+        if (!isValid) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     });
 </script>
 </body>

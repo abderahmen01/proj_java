@@ -15,6 +15,7 @@
             --success-color: #27ae60;
             --light-bg: #f8f9fa;
             --dark: #1e293b;
+            --error-color: #e74c3c;
         }
 
         body {
@@ -111,7 +112,7 @@
                 </h3>
             </div>
             <div class="card-body p-4">
-                <form action="formateurs" method="post">
+                <form action="formateurs" method="post" onsubmit="return validateFormateurForm();" novalidate>
                     <input type="hidden" name="action" value="add">
                     <c:if test="${not empty formateur}">
                         <input type="hidden" name="id" value="${formateur.id}">
@@ -121,57 +122,66 @@
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Nom</label>
-                                <input type="text" name="nom" value="${formateur.nom}"
-                                       class="form-control form-control-lg" required>
+                                <input type="text" name="nom" value="${formateur.nom}" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Ce champ est requis.</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Prénom</label>
-                                <input type="text" name="prenom" value="${formateur.prenom}"
-                                       class="form-control form-control-lg" required>
+                                <input type="text" name="prenom" value="${formateur.prenom}" class="form-control form-control-lg" required>
+                                <div class="invalid-feedback">Ce champ est requis.</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Email</label>
                                 <input type="email" name="email" value="${formateur.email}"
-                                       class="form-control form-control-lg" required>
+                                       class="form-control form-control-lg"
+                                       pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/"
+                                       title="Veuillez saisir une adresse email valide." required>
+                                <div class="invalid-feedback">Veuillez saisir une adresse email valide.</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Téléphone</label>
                                 <input type="tel" name="tel" value="${formateur.tel}"
-                                       class="form-control form-control-lg" required>
+                                       class="form-control form-control-lg"
+                                       pattern="^[0-9\\s\\-+()]{8,20}$"
+                                       title="Veuillez saisir un numéro de téléphone valide (8-20 chiffres)." required>
+                                <div class="invalid-feedback">Veuillez saisir un numéro de téléphone valide.</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Type</label>
-                                <select name="type" class="form-select form-select-lg">
+                                <select name="type" class="form-select form-select-lg" required>
+                                    <option value="">Sélectionnez un type</option>
                                     <option value="interne" ${formateur.type == 'interne' ? 'selected' : ''}>Interne</option>
                                     <option value="externe" ${formateur.type == 'externe' ? 'selected' : ''}>Externe</option>
                                 </select>
+                                <div class="invalid-feedback">Veuillez choisir un type.</div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Employeur</label>
-                                <select name="employeurId" class="form-select form-select-lg">
+                                <select name="employeurId" class="form-select form-select-lg" required>
+                                    <option value="">Sélectionnez un employeur</option>
                                     <c:forEach items="${employeurs}" var="employeur">
                                         <option value="${employeur.id}" ${formateur.employeur.id == employeur.id ? 'selected' : ''}>
                                             ${employeur.nomEmployeur}
                                         </option>
                                     </c:forEach>
                                 </select>
+                                <div class="invalid-feedback">Veuillez choisir un employeur.</div>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-end gap-3 mt-4">
-                        <a href="${pageContext.request.contextPath}/formateurs"
-                           class="btn btn-secondary">
+                        <a href="${pageContext.request.contextPath}/formateurs" class="btn btn-secondary">
                             <i class="fas fa-times me-2"></i>Annuler
                         </a>
                         <button type="submit" class="btn btn-success">
@@ -184,7 +194,6 @@
     </div>
 </main>
 
-<!-- Footer -->
 <footer class="bg-dark text-white">
     <div class="container text-center py-3">
         <img src="https://cdn-icons-png.flaticon.com/512/1974/1974346.png" alt="Logo" width="40" class="mb-2">
@@ -200,6 +209,15 @@
             el.style.transform = 'translateY(0)';
         });
     });
+
+    function validateFormateurForm() {
+        const form = document.querySelector("form");
+        const isValid = form.checkValidity();
+
+        form.classList.add('was-validated');
+
+        return isValid;
+    }
 </script>
 </body>
 </html>
