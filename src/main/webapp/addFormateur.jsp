@@ -138,7 +138,7 @@
                                 <label class="form-label fw-bold">Email</label>
                                 <input type="email" name="email" value="${formateur.email}"
                                        class="form-control form-control-lg"
-                                       pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/"
+                                       pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/"
                                        title="Veuillez saisir une adresse email valide." required>
                                 <div class="invalid-feedback">Veuillez saisir une adresse email valide.</div>
                             </div>
@@ -148,7 +148,7 @@
                                 <label class="form-label fw-bold">Téléphone</label>
                                 <input type="tel" name="tel" value="${formateur.tel}"
                                        class="form-control form-control-lg"
-                                       pattern="^[0-9\\s\\-+()]{8,20}$"
+                                       pattern="\d{8,15}"
                                        title="Veuillez saisir un numéro de téléphone valide (8-20 chiffres)." required>
                                 <div class="invalid-feedback">Veuillez saisir un numéro de téléphone valide.</div>
                             </div>

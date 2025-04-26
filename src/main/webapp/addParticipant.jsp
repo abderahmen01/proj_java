@@ -131,7 +131,7 @@
                         <div class="col-md-6">
                             <div class="mb-4">
                                 <label class="form-label fw-bold">Email</label>
-                                <input type="email" name="email" value="${participant.email}" class="form-control form-control-lg" required title="Veuillez saisir une adresse email valide.">
+                                <input type="email" name="email" value="${participant.email}" class="form-control form-control-lg" required pattern="/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/" title="Veuillez saisir une adresse email valide.">
                             </div>
                         </div>
                         <div class="col-md-6">
